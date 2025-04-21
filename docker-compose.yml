@@ -1,0 +1,12 @@
+
+services:
+  api:
+    build: .
+    # container_name: "api_GamerVault"
+    ports:
+      - "5000:5000"
+    networks: 
+      - gamer-network
+
+networks:
+  gamer-network:
