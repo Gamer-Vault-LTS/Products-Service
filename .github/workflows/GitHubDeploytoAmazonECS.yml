@@ -10,7 +10,7 @@ env:
     ECS_SERVICE: products-service-gvgg
     ECS_CLUSTER: main-cluster-gamer-vault-ggeasy
     ECS_TASK_DEFINITION: .aws/ProductsTaskDefinition.json
-    CONTAINER_NAME: products-service-containers
+    CONTAINER_NAME: products-service-repo
                                             
 
 permissions:
