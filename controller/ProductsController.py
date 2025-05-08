@@ -57,15 +57,15 @@ class ProductsController:
                 })
         return jsonify(games), 200
 
-    def getGamesWithCoins(db:Session):
+    def getGamesWithCoins(db: Session):
         coin_category = db.query(Category).filter(Category.name.ilike("%coins%")).first()
-    
+
         if not coin_category:
             return jsonify({"error": "Coin category not found"}), 404
 
         products = db.query(Product).filter(Product.category_id == coin_category.category_id).all()
 
-        games_list = []
+        games_dict = {}
         for product in products:
             description = product.prod_description
             if isinstance(description, str):
@@ -73,25 +73,19 @@ class ProductsController:
                     description = json.loads(description)
                 except json.JSONDecodeError:
                     continue
-                 
-            if 'game' in description:
-                game_data = {
-                    "game": description['game'],
-                    "image_url": product.image_url
-                }
-                # Verifica si ya existe un juego con el mismo nombre en la lista
-                if not any(g['game'] == game_data['game'] for g in games_list):
-                    games_list.append(game_data)
 
-        unique_games = []
-        seen = set()
-        for game in games_list:
-            key = (game["game"], game["image_url"])
-            if key not in seen:
-                seen.add(key)
-                unique_games.append(game)
+            game_name = description.get("game")
+            if game_name:
+                key = game_name.strip().lower()
+                # Solo guarda si el juego aún no está en el diccionario
+                if key not in games_dict:
+                    games_dict[key] = {
+                        "game": game_name,
+                        "image_url": product.image_url
+                    }
 
-        unique_games_sorted = sorted(unique_games, key=lambda x: x["game"])
+        # Convierte a lista y ordena alfabéticamente por nombre de juego
+        unique_games_sorted = sorted(games_dict.values(), key=lambda x: x["game"])
 
         return jsonify(unique_games_sorted), 200
     
