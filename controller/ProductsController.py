@@ -73,13 +73,15 @@ class ProductsController:
                     description = json.loads(description)
                 except json.JSONDecodeError:
                     continue
-            
+                 
             if 'game' in description:
                 game_data = {
                     "game": description['game'],
                     "image_url": product.image_url
                 }
-                games_list.append(game_data)
+                # Verifica si ya existe un juego con el mismo nombre en la lista
+                if not any(g['game'] == game_data['game'] for g in games_list):
+                    games_list.append(game_data)
 
         unique_games = []
         seen = set()
