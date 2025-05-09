@@ -80,7 +80,7 @@ class ProductsController:
                 # Solo guarda si el juego aún no está en el diccionario
                 if key not in games_dict:
                     games_dict[key] = {
-                        "game": game_name,
+                        "game_name": game_name,
                         "image_url": product.image_url
                     }
 
