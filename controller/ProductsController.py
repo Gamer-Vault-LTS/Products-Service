@@ -85,7 +85,7 @@ class ProductsController:
                     }
 
         # Convierte a lista y ordena alfabéticamente por nombre de juego
-        unique_games_sorted = sorted(games_dict.values(), key=lambda x: x["game"])
+        unique_games_sorted = sorted(games_dict.values(), key=lambda x: x["game_name"])
 
         return jsonify(unique_games_sorted), 200
     
